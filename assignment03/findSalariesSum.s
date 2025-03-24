@@ -1,26 +1,34 @@
-# findSalariesSum.s
 .section .text
 .global findSalariesSum
 
 findSalariesSum:
-    # Initialize sum to 0
+    pushq %rbp
+    movq %rsp, %rbp
+    
+    # sum = 0
     xorl %eax, %eax
-    
-    # Initialize counter to 0
-    xorl %ebx, %ebx
-    
+    # index = 0
+    xorl %ecx, %ecx
+
 loop_start:
-    # Check if counter is greater than size
-    cmpl %esi, %ebx
+    # index >= size?
+    cmpl %esi, %ecx
     jge loop_end
-    
-    # Load salary and add to sum
-    movl 4(%rdi, %rbx, 8), %ecx
-    addl %ecx, %eax
-    
-    # Increment counter
-    incl %ebx
+
+    # Extend ecx (index) to 64-bit for addressing
+    movslq %ecx, %rdx      
+
+    # Calculate base address + index*12 manually
+    leaq (%rdi, %rdx, 8), %r8    
+    leaq (%r8, %rdx, 4), %r8     
+
+    # Load salary at offset 8
+    movl 8(%r8), %r9d
+    addl %r9d, %eax
+
+    incl %ecx
     jmp loop_start
 
 loop_end:
+    popq %rbp
     ret

@@ -20,7 +20,7 @@ int findPaymentsSum(CUSTOMER* c, int num_of_pamyments); //this function should f
 int findSalariesSum(EMPLOYEE e[], int size);            //this function should find the sum of salaries in a given array of employees
 
 int main(){
-    
+
     // TestCase-1
     printf("The sum is: %d\n",sumOfPowers(3));
 
